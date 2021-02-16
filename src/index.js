@@ -6,27 +6,33 @@ module.exports = function toReadable (number) {
 
     number = number.toString().split('');
     let str = []
+
     number.every( (value, index, arr) => {
-        if( (arr.length-index) == 3){
-            str.push(digits[parseInt(value)]);
-            str.push(evenMore[0]);
-        } else if( (arr.length-index) == 2 ){
-            if(value == '0'){
+        let bias = arr.length-index
 
-            } else if(value == '1'){
-                str.push(teens[parseInt(arr[index+1])]);
-                return false;
-            } else {
-                str.push(tens[parseInt(value)]);
-            }
-        } else if( (arr.length-index) == 1 ) {
-            if(arr.length == 1 && value == '0'){
-                str.push('zero');
-            } else if(arr.length != 1 && value == '0'){
-
-            } else {
+        switch(bias){
+            case 3:
                 str.push(digits[parseInt(value)]);
-            }
+                str.push(evenMore[0]);
+                break;
+            case 2:
+                if(value == '0'){
+                } else if(value == '1'){
+                    str.push(teens[parseInt(arr[index+1])]);
+                    return false;
+                } else {
+                    str.push(tens[parseInt(value)]);
+                }
+                break;
+            case 1:
+                if(arr.length == 1 && value == '0'){
+                    str.push('zero');
+                } else if(arr.length != 1 && value == '0'){
+    
+                } else {
+                    str.push(digits[parseInt(value)]);
+                }
+                break;
         }
         return true;
     })
